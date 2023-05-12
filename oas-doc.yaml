@@ -1,0 +1,86 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: LocalEntities
+  description: Local entities api 
+
+paths:
+  /api/v1/localentitiess:
+    x-router-controller: localenitiesController
+    get:
+      description: Returns all localentitiess
+      operationId: getLocalEntitiess
+      responses:
+        200:
+          description: LocalEntities list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/localentities'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /api/v1/localentitiess/{province}:
+    x-router-controller: localenitiesController
+    get:
+      description: Returns a single localentities by its province
+      operationId: findByprovince
+      parameters:
+        - required: true
+          name: province
+          description: province of the localentities to fetch
+          in: path
+          schema:
+            type: string
+      responses:
+        200:
+          description: LocalEntities found by province
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/localentities'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+
+components:
+  schemas:
+    localentities:
+        type: object
+        required:
+          - province
+        properties:
+          province:
+            type: string
+          landline:
+            type: number
+          first_name:
+            type: string
+          second_name:
+            type: string
+          president_appointment_date:
+            type: number
+          surface_extension:
+            type: number
+          population:
+            type: number
+          expense:
+            type: number
+          income:
+            type: number
+    error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+      additionalProperties: true
